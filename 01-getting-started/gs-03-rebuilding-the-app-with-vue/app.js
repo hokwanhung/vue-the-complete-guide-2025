@@ -7,10 +7,12 @@ Vue.createApp({
   },
   methods: {
     addGoal() {
+      // REMARK: This refers to this object automated by Vue.
       this.goals.push(this.enteredValue);
       this.enteredValue = '';
     }
   }
+  // REMARK: Assign the part of the app that Vue can control.
 }).mount('#app');
 
 // const buttonEl = document.querySelector('button');
