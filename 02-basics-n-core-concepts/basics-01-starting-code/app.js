@@ -1,7 +1,9 @@
 const app = Vue.createApp({
   data() {
     return {
-      courseGoal: 'Finish the course and learn Vue!',
+      // REMARK: These are properties of object,
+      courseGoalA: 'Finish the course and learn Vue!',
+      courseGoalB: '<h2> Master Vue and build amazing apps! </h2>',
       vueLink: 'https://vuejs.org/'
     };
   },
@@ -9,7 +11,8 @@ const app = Vue.createApp({
     // REMARK: Define functions to execute.
     outputGoal() {
       const randomNumber = Math.random();
-      return randomNumber < 0.5 ? 'Learn Vue!' : 'Master Vue!';
+      // REMARK: this refers to the global Vue instance objec that are merged from data object and more.
+      return randomNumber < 0.5 ? this.courseGoalA : this.courseGoalB;
     }
   },
 });

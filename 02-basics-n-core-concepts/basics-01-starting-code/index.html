@@ -19,9 +19,11 @@
     <h2>My Course Goal</h2>
     <!-- REMARK: Text is stored in JS and rendered on screen (interpolation). -->
     <p>{{ outputGoal() }}</p>
+    <!-- REMARK: HTML codes are only available with v-html enabled, but with security issues. -->
+    <!-- <p v-html="outputGoal()">{{ outputGoal() }}</p> -->
     <!-- REMARK: The {{}} is only available between opening and closing tags.-->
-     <!-- REMARK: To pass a dynamic attribute, use the Vue binding syntax. -->
-    <p>Learn more <a v-bind:href="vueLink" >about Vue</a>.</p>
+    <!-- REMARK: To pass a dynamic attribute, use the Vue binding syntax. -->
+    <p>Learn more <a v-bind:href="vueLink">about Vue</a>.</p>
   </section>
 </body>
 
