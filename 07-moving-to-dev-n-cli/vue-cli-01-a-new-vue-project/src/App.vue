@@ -1,0 +1,27 @@
+<!-- REMARK: Split the template, script and style - will be transformed via CLI. -->
+<template></template>
+
+
+<!-- REMARK: Provide configurations in script tag.-->
+<script>
+const app = {
+  data() {
+    return {
+      friends: [
+        {
+          id: 'manual',
+          name: 'Manuel Lorenz',
+          phone: '01234 5678 991',
+          email: 'manuel@localhost.com',
+        },
+        {
+          id: 'julie',
+          name: 'Julie Jones',
+          phone: '09876 543 221',
+          email: 'julie@localhost.com',
+        }
+      ],
+    }
+  },
+}
+</script>
