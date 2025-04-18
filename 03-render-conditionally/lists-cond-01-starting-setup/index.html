@@ -1,29 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vue Basics</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-    <script src="https://unpkg.com/vue@3.4.9/dist/vue.global.js" defer></script>
-    <script src="app.js" defer></script>
-  </head>
-  <body>
-    <header>
-      <h1>Vue Course Goals</h1>
-    </header>
-    <section id="user-goals">
-      <h2>My course goals</h2>
-      <input type="text" />
-      <button>Add Goal</button>
-      <p>No goals have been added yet - please start adding some!</p>
-      <ul>
-        <li>Goal</li>
-      </ul>
-    </section>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vue Basics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/vue@3.4.9/dist/vue.global.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>Vue Course Goals</h1>
+  </header>
+  <section id="user-goals">
+    <h2>My course goals</h2>
+    <input type="text" v-model="enteredGoalValue" />
+    <button @click="addGoal">Add Goal</button>
+    <!-- REMARK: Provide if-else using Vue. -->
+    <!-- REMARK: v-show only works standalone, but v-show only shows/hides with CSS (e.g., "display: hidden"). -->
+    <!-- REMARK: But usually unless some elements are switching between visible/hidden a lot. -->
+    <p v-if="goals.length === 0">No goals have been added yet - please start adding some!</p>
+    <!-- REMARK: v-else has to be used on a direct neighbour after v-if is used. -->
+    <ul v-else>
+      <!-- REMARK: Repeat goal in goals and between the element, we can access the goal value. -->
+      <li v-for="(goal, index) in goals" :key="goal" @click="removeGoal(index)">
+        <p>{{goal}} - {{index}}</p>
+        <!-- REMARK: Serve as event.stopPropangation. -->
+        <input type="text" @click.stop />
+      </li>
+
+    </ul>
+    <!-- <ul>
+      <li v-for="num in 10">{{num}}</li>
+    </ul> -->
+    <!-- REMARK: v-for can also loop through object. -->
+    <!-- <ul>
+      <li v-for="(value, key, index) in {name: 'ho', age: 24}">{{key}}: {{value}}</li>
+    </ul> -->
+  </section>
+</body>
+
 </html>
