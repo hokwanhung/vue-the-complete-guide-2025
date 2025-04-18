@@ -4,9 +4,12 @@
     <header>
       <h1>My Friends</h1>
     </header>
+    <!-- REMARK: props should not be mutated. -->
     <ul>
-      <friend-contact></friend-contact>
-      <friend-contact></friend-contact>
+      <friend-contact name="Manuel Lorenz" phone-number="01234 5678 991" email-address="manuel@localhost.com"
+        is-favourite="1"></friend-contact>
+      <friend-contact name="Julie Jones" phone-number="09876 543 221" email-address="julie@localhost.com"
+        is-favourite="0"></friend-contact>
     </ul>
   </section>
 </template>
