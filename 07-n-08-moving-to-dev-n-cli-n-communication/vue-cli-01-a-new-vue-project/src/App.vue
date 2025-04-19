@@ -4,12 +4,15 @@
     <header>
       <h1>My Friends</h1>
     </header>
+    <new-friend @add-contact="addContact"></new-friend>
     <!-- REMARK: props should not be mutated. -->
     <ul>
-      <friend-contact name="Manuel Lorenz" phone-number="01234 5678 991" email-address="manuel@localhost.com"
-        is-favourite="1"></friend-contact>
-      <friend-contact name="Julie Jones" phone-number="09876 543 221" email-address="julie@localhost.com"
-        is-favourite="0"></friend-contact>
+      <friend-contact v-for="friend in friends" :key="friend.id" :id="friend.id" :name="friend.name"
+        :phone-number="friend.phone" :email-address="friend.email" :is-favourite="friend.isFavourite"
+        @toggle-favourite="toggleFavourite" @delete="deleteContact" />
+      <!-- REMARK: Can remove is-favourite, and also will provide warning if any required is missing. -->
+      <!-- <friend-contact name="Julie Jones" phone-number="09876 543 221"
+        email-address="julie@localhost.com"></friend-contact> -->
     </ul>
   </section>
 </template>
@@ -17,9 +20,10 @@
 
 <!-- REMARK: Provide configurations in script tag.-->
 <script>
-import FriendContact from './components/FriendContact.vue'
+import FriendContact from './components/FriendContact.vue';
+import NewFriend from './components/NewFriend.vue';
 export default {
-  components: { FriendContact },
+  components: { FriendContact, NewFriend },
   data() {
     return {
       friends: [
@@ -28,16 +32,39 @@ export default {
           name: 'Manuel Lorenz',
           phone: '01234 5678 991',
           email: 'manuel@localhost.com',
+          isFavourite: true,
         },
         {
           id: 'julie',
           name: 'Julie Jones',
           phone: '09876 543 221',
           email: 'julie@localhost.com',
+          isFavourite: false,
         }
       ],
     }
   },
+  methods: {
+    toggleFavourite(friendId) {
+      const identifiedFriend = this.friends.find((friend) =>
+        friend.id === friendId);
+      identifiedFriend.isFavourite = !identifiedFriend.isFavourite;
+    },
+    addContact(name, phone, email) {
+      const newFriendContact = {
+        id: new Date().toISOString(),
+        name: name,
+        phone: phone,
+        email: email,
+        isFavourite: false,
+      };
+
+      this.friends.push(newFriendContact);
+    },
+    deleteContact(friendId) {
+      this.friends = this.friends.filter((friend) => friend.id !== friendId);
+    }
+  }
 }
 </script>
 
@@ -74,7 +101,8 @@ header {
   list-style: none;
 }
 
-#app li {
+#app li,
+#app form {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   margin: 1rem auto;
   border-radius: 10px;
@@ -106,5 +134,21 @@ header {
   background-color: #ec3169;
   border-color: #ec3169;
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+}
+
+#app input {
+  font: inherit;
+  padding: 0.15rem;
+}
+
+#app label {
+  font-weight: bold;
+  margin-right: 1rem;
+  width: 7rem;
+  display: inline-block;
+}
+
+#app form div {
+  margin: 1rem 0;
 }
 </style>
