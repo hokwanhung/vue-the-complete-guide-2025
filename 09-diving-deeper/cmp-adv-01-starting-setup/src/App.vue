@@ -2,36 +2,51 @@
   <div>
     <!-- <TheHeader /> -->
     <the-header></the-header>
-    <badge-list></badge-list>
-    <user-info :full-name="activeUser.name" :info-text="activeUser.description" :role="activeUser.role"></user-info>
+    <!-- <badge-list></badge-list>
+    <user-info :full-name="activeUser.name" :info-text="activeUser.description" :role="activeUser.role"></user-info> -->
+    <button @click="setSelectedComponent('active-goals')">Active Goals</button>
+    <button @click="setSelectedComponent('manage-goals')">Manage Goals</button>
+    <!-- <active-goals v-if="selectedComponent === 'active-goals'"></active-goals>
+    <manage-goals v-if="selectedComponent === 'manage-goals'"></manage-goals> -->
+    <!-- REMARK: Can use dynamic component. -->
+    <!-- Will be cached behind the scene with <keep-alive />. -->
+    <keep-alive>
+      <component :is="selectedComponent"></component>
+    </keep-alive>
   </div>
-  <course-goals #default="slotProps">
-    <!-- REMARK: By default all props are inside slotProps, and it doesn't have to be specified. -->
-    <!-- <template #default="slotProps"> -->
-    <h2>{{ slotProps.item }}</h2>
-    <!-- <p>{{ slotProps['another-prop'] }}</p> -->
-    <p>{{ slotProps.anotherProp }}</p> <!-- in my case it becomes camelCase by default. -->
-    <!-- </template> -->
-  </course-goals>
+  <!-- <course-goals #default="slotProps"> -->
+  <!-- REMARK: By default all props are inside slotProps, and it doesn't have to be specified. -->
+  <!-- <template #default="slotProps"> -->
+  <!-- <h2>{{ slotProps.item }}</h2> -->
+  <!-- <p>{{ slotProps['another-prop'] }}</p> -->
+  <!-- in my case it becomes camelCase by default. -->
+  <!-- <p>{{ slotProps.anotherProp }}</p> -->
+  <!-- </template> -->
+  <!-- </course-goals> -->
 </template>
 
 <script>
-import BadgeList from './components/BadgeList.vue';
+// import BadgeList from './components/BadgeList.vue';
 import TheHeader from './components/TheHeader.vue';
-import UserInfo from './components/UserInfo.vue';
-import CourseGoals from './components/CourseGoals.vue';
+// import UserInfo from './components/UserInfo.vue';
+// import CourseGoals from './components/CourseGoals.vue';
+import ActiveGoals from './components/ActiveGoals.vue';
+import ManageGoals from './components/ManageGoals.vue';
 
 export default {
   // REMARK: This way we register the components locally.
   components: {
     TheHeader,
-    BadgeList,
-    UserInfo,
-    CourseGoals,
+    // BadgeList,
+    // UserInfo,
+    // CourseGoals,
     // 'the-header': TheHeader, // or TheHeader as key
+    ActiveGoals,
+    ManageGoals,
   },
   data() {
     return {
+      selectedComponent: 'active-goals',
       activeUser: {
         name: 'Maximilian Schwarzmüller',
         description: 'Site owner and admin',
@@ -39,6 +54,11 @@ export default {
       },
     };
   },
+  methods: {
+    setSelectedComponent(cmp) {
+      this.selectedComponent = cmp;
+    },
+  }
 };
 </script>
 
