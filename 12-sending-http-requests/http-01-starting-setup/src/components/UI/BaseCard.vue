@@ -4,6 +4,12 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'base-card',
+}
+</script>
+
 <style scoped>
 div {
   margin: 2rem auto;
