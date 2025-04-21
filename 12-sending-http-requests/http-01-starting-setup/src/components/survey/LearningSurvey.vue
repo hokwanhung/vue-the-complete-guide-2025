@@ -21,6 +21,7 @@
           <label for="rating-great">Great</label>
         </div>
         <p v-if="invalidInput">One or more input fields are invalid. Please check your provided data.</p>
+        <p v-if="error">{{ error }}</p>
         <div>
           <base-button>Submit</base-button>
         </div>
@@ -37,6 +38,7 @@ export default {
       enteredName: '',
       chosenRating: null,
       invalidInput: false,
+      error: null,
     };
   },
   // emits: ['survey-submit'],
@@ -53,6 +55,7 @@ export default {
       //   rating: this.chosenRating,
       // });
 
+      this.error = null;
       // REMARK: JSON is needed in this case by firebase to create a node.
       fetch(process.env.VUE_APP_BASE_URL + 'surveys.json', {
         method: 'POST',
@@ -63,6 +66,16 @@ export default {
           name: this.enteredName,
           rating: this.chosenRating,
         })
+      }).then((response) => {
+        // REMARK: Server errors like 400 would not be handled through catch() automatically.
+        if (response.ok) {
+          // ...
+        } else {
+          throw new Error('Could not save data!');
+        }
+      }).catch((error) => {
+        console.log(error);
+        this.error = 'Something went wrong - try again later!';
       });
 
       this.enteredName = '';
