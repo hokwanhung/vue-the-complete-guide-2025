@@ -6,12 +6,8 @@
         <base-button>Load Submitted Experiences</base-button>
       </div>
       <ul>
-        <survey-result
-          v-for="result in results"
-          :key="result.id"
-          :name="result.name"
-          :rating="result.rating"
-        ></survey-result>
+        <survey-result v-for="result in results" :key="result.id" :name="result.name"
+          :rating="result.rating"></survey-result>
       </ul>
     </base-card>
   </section>
@@ -21,6 +17,7 @@
 import SurveyResult from './SurveyResult.vue';
 
 export default {
+  name: 'user-experiences',
   props: ['results'],
   components: {
     SurveyResult,

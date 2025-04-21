@@ -9,6 +9,7 @@
 
 <script>
 export default {
+  name: 'survey-result',
   props: ['name', 'rating'],
   computed: {
     ratingClass() {
