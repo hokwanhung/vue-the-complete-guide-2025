@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vue Basics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/vue@3.4.9/dist/vue.global.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>Vue Events</h1>
+  </header>
+  <section id="events">
+    <!-- REMARK: Different than v-bind that set value to tags. -->
+    <h2>Events in Action</h2>
+    <!-- REMARK: Genuinely better in putting methods in JS. -->
+    <button v-on:click="addCount">Add</button>
+    <button v-on:click="counter--">Remove</button>
+    <button v-on:click="addCount(5)">Add 5</button>
+    <button v-on:click.middle="reduceCount(5)">Subtract 5</button>
+    <p v-once>Starting Counter: {{ counter }}</p>
+    <!-- REMARK: Any interpolation only to be evaluated once. -->
+    <p>Result: {{ counter }}</p>
+    <!-- REMARK: Allow partial updates that increase performance. -->
+    <input type="text" v-on:input="setName($event, 'hokwanhung')" v-on:keyup.enter="confirmInput" />
+    <p>Your Name: {{ confirmedName }}</p>
+    <!-- <form v-on:submit="submitForm"> -->
+    <!-- REMARK: Vue has default modifiers that defined to perform certain actions. -->
+    <form v-on:submit.prevent="submitForm">
+      <input type="text" />
+      <!-- REMARK: By default button will send HTML request. -->
+      <button>Sign up</button>
+    </form>
+  </section>
+</body>
+
+</html>
