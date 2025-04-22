@@ -1,4 +1,5 @@
 <template>
+  <button @click="confirmInput">Confirm</button>
   <ul>
     <user-item v-for="user in users" :key="user.id" :name="user.fullName" :role="user.role"></user-item>
   </ul>
@@ -11,7 +12,15 @@ export default {
   components: {
     UserItem,
   },
+  name: 'users-list',
   inject: ['users'],
+  methods: {
+    confirmInput() {
+      // do something, then do routing.
+      // REMARK: Use $router to use routing as JS methods.
+      this.$router.push('/teams');
+    }
+  }
 };
 </script>
 

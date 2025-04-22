@@ -9,6 +9,7 @@
 <script>
 export default {
   props: ['name', 'memberCount'],
+  name: 'teams-item',
 };
 </script>
 

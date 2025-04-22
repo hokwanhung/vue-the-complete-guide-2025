@@ -19,6 +19,7 @@ export default {
   components: {
     UserItem
   },
+  name: 'team-members',
   data() {
     return {
       teamName: 'Test',

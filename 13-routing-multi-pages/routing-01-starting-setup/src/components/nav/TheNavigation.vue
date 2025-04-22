@@ -3,10 +3,13 @@
     <nav>
       <ul>
         <li>
-          <button @click="setActivePage('teams-list')">Teams</button>
+          <!-- <button @click="setActivePage('teams-list')">Teams</button> -->
+          <!-- REMARK: A special anchor tag that prevent loading a diff page, and anaylse and load the component. -->
+          <router-link to="/teams">Teams</router-link>
         </li>
         <li>
-          <button @click="setActivePage('users-list')">Users</button>
+          <!-- <button @click="setActivePage('users-list')">Users</button> -->
+          <router-link to="/users">Users</router-link>
         </li>
       </ul>
     </nav>
@@ -15,12 +18,13 @@
 
 <script>
 export default {
-  emits: ['set-page'],
-  methods: {
-    setActivePage(page) {
-      this.$emit('set-page', page);
-    },
-  },
+  name: 'the-navigation',
+  // emits: ['set-page'],
+  // methods: {
+  //   setActivePage(page) {
+  //     this.$emit('set-page', page);
+  //   },
+  // },
 };
 </script>
 
@@ -49,7 +53,7 @@ li {
   margin: 0 2rem;
 }
 
-button {
+a {
   font: inherit;
   background: transparent;
   border: 1px solid transparent;
@@ -59,8 +63,11 @@ button {
   display: inline-block;
 }
 
-button:hover,
-button:active {
+a:hover,
+a:active,
+/** REMARK: Active state styling available through vue-router,
+while router-link-exact-active only applies to the exact link, ignoring the nested ones. */
+a.router-link-active {
   color: #f1a80a;
   border-color: #f1a80a;
   background-color: #1a037e;

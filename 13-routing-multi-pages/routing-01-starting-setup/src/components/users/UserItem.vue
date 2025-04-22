@@ -8,6 +8,7 @@
 <script>
 export default {
   props: ['name', 'role'],
+  name: 'user-item',
   computed: {
     roleClass() {
       if (this.role === 'Engineer') {
