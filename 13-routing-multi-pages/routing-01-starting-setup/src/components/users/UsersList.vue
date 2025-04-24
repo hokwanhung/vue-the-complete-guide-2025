@@ -20,6 +20,9 @@ export default {
       // REMARK: Use $router to use routing as JS methods.
       this.$router.push('/teams');
     }
+  },
+  beforeRouteEnter() {
+    
   }
 };
 </script>

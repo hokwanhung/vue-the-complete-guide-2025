@@ -6,6 +6,8 @@ import TeamsList from './components/teams/TeamsList.vue';
 import UsersList from './components/users/UsersList.vue';
 import TeamMembers from './components/teams/TeamMembers.vue';
 import NotFound from './components/nav/NotFound.vue';
+import TeamsFooter from './components/teams/TeamsFooter.vue';
+import UsersFooter from './components/users/UsersFooter.vue';
 
 const router = createRouter({
   routes: [
@@ -16,7 +18,11 @@ const router = createRouter({
     {
       name: 'teams',
       path: '/teams',
-      component: TeamsList,
+      // component: TeamsList,
+      components: {
+        default: TeamsList,
+        footer: TeamsFooter,
+      },
       // alias: '/' // REMARK: Alias also do the same thing, but the url does not change.
       children: [
         // REMARK: In this case, we need a router-view in TeamList.
@@ -31,7 +37,14 @@ const router = createRouter({
     },
     {
       path: '/users',
-      component: UsersList,
+      // component: UsersList,
+      components: {
+        default: UsersList,
+        footer: UsersFooter,
+      },
+      beforeEnter() {
+        // REMARK: First global guard, then local router, at last would be component level.
+      }
     },
     // {
     //   path: '/teams/new',
@@ -42,9 +55,37 @@ const router = createRouter({
     }
   ],
   linkActiveClass: 'active', // REMARK: Can link the class here in App.vue.
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      // REMARK: Only active when using the back button.
+      return savedPosition;
+    }
+
+    return {
+      left: 0,
+      top: 0, // return to top.
+    }
+  },
   // REMARK: Decide the forth and back with pages - createWebHistory uses the browser default.
   history: createWebHistory(),
 });
+
+router.beforeEach((to, from, next) => {
+  // REMARK: Allow the navigation and perform routing.
+  // if (to.name === 'team-members') {
+  //   next();
+  //   return;
+  // }
+
+  // next({
+  //   name: 'team-members',
+  //   params: {
+  //     teamId: 't2'
+  //   }
+  // });
+
+  next();
+})
 
 const app = createApp(App)
 

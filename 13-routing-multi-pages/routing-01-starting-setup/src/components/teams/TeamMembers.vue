@@ -50,6 +50,9 @@ export default {
     // this.$route.path // /teams/t1
     // this.loadTeamMembers(this.$route);
     this.loadTeamMembers(this.teamId);
+
+    // REMARK: Query params are only accessible through $route.
+    // console.log(this.$route.query);
   },
   watch: {
     teamId(newRoute) {
