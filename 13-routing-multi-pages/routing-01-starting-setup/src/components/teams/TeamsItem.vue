@@ -1,4 +1,5 @@
 <template>
+  <router-view></router-view>
   <li>
     <h3>{{ name }}</h3>
     <div class="team-members">{{ memberCount }} Members</div>
@@ -13,7 +14,14 @@ export default {
   name: 'teams-item',
   computed: {
     teamMembersLink() {
-      return '/teams/' + this.id;
+      // return '/teams/' + this.id;
+      return {
+        // path: '/teams/' + this.id,
+        name: 'team-members',
+        params: {
+          teamId: this.id,
+        },
+      };
     }
   }
 };
