@@ -54,6 +54,9 @@ export default {
     // REMARK: Query params are only accessible through $route.
     // console.log(this.$route.query);
   },
+  beforeRouteUpdate() {
+    // REMARK: Whenever this component is to be reused by 
+  },
   watch: {
     teamId(newRoute) {
       // $route(newRoute) {
