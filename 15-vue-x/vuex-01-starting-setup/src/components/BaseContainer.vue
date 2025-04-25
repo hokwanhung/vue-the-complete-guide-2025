@@ -7,6 +7,7 @@
 
 <script>
 export default {
+  name: 'base-container',
   props: ['title'],
 };
 </script>
