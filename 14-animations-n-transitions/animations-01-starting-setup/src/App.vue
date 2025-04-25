@@ -1,4 +1,13 @@
 <template>
+  <!-- REMARK: New way for using transition on router with Vue 3. -->
+  <router-view v-slot="slotProps">
+    <transition name="route" mode="out-in">
+      <component :is="slotProps.Component"></component>
+    </transition>
+  </router-view>
+  <div class="container">
+    <users-list></users-list>
+  </div>
   <div class="container">
     <div class="block" :class="{ animate: animatedBlock }"></div>
     <button @click="animateBlock">Animate</button>
@@ -7,8 +16,11 @@
     <!-- REMARK: The way Vue supports out transitions. -->
     <!-- REMARK: transition must contain only one child component. -->
     <!-- REMARK: Can even fully customise the "v-enter-to". -->
-    <transition name="para" enter-to-class="" @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter"
-      @before-leave="beforeLeave" @leave="leave" @after-leave="afterLeave" @enter-cancelled="enterCancelled" @leave-cancelled="leaveCancelled">
+    <!-- REMARK: The events below are always emitted with or without JS control. -->
+    <!-- REMARK: :css="false" implies that no transition or animations from css, only with JS. -->
+    <transition :css="false" name="para" enter-to-class="" @before-enter="beforeEnter" @enter="enter"
+      @after-enter="afterEnter" @before-leave="beforeLeave" @leave="leave" @after-leave="afterLeave"
+      @enter-cancelled="enterCancelled" @leave-cancelled="leaveCancelled">
       <!-- REMARK: Especially useful with v-if or v-show. -->
       <p v-if="paraIsVisible">This is only sometimes visible...</p>
     </transition>
@@ -37,7 +49,12 @@
 </template>
 
 <script>
+import UsersList from './components/UsersList.vue';
+
 export default {
+  components: {
+    UsersList
+  },
   data() {
     return {
       animatedBlock: false,
@@ -45,7 +62,8 @@ export default {
       paraIsVisible: false,
       usersAreVisible: false,
       // REMARK: Store the intervals outside of the methods.
-      
+      enterInterval: null,
+      leaveInterval: null,
     };
   },
   methods: {
@@ -57,11 +75,11 @@ export default {
     enter(element, done) {
       // REMARK: Use vanila JS to do animation work.
       let round = 1;
-      const interval = setInterval(() => {
+      this.enterInterval = setInterval(() => {
         element.style.opacity = round * 0.1;
         round++;
         if (round > 10) {
-          clearInterval(interval);
+          clearInterval(this.enterInterval);
           done(); // REMARK: Use this function to let Vue understand the setInterval logic.
         }
       }, 20);
@@ -73,19 +91,25 @@ export default {
     },
     leave(element, done) {
       let round = 1;
-      const interval = setInterval(() => {
+      this.leaveInterval = setInterval(() => {
         element.style.opacity = 1 - round * 0.1;
         round++;
         if (round > 10) {
-          clearInterval(interval);
+          clearInterval(this.leaveInterval);
           done(); // REMARK: Use this function to let Vue understand the setInterval logic.
         }
       }, 20);
     },
     // eslint-disable-next-line no-unused-vars
     afterLeave(element) { },
-    enterCancelled() {},
-    leaveCancelled() {},
+    // eslint-disable-next-line no-unused-vars
+    enterCancelled(element) {
+      clearInterval(this.enterInterval);
+    },
+    // eslint-disable-next-line no-unused-vars
+    leaveCancelled(element) {
+      clearInterval(this.leaveInterval);
+    },
     showUsers() {
       this.usersAreVisible = true;
     },
@@ -236,6 +260,18 @@ button:active {
     transform: translateY(0) scale(1);
   }
 } */
+
+.route-enter-from {}
+
+.route-enter-active {
+  animation: slide-scale 0.4s ease-out;
+}
+
+.route-enter-to {}
+
+.route-leave-active {
+  animation: slide-scale 0.4s ease-in;
+}
 
 /** REMARK: The more advanced CSS animations. */
 /** REMARK: The issue is of the removal of an element, which is hard to apply CSS to it. */
