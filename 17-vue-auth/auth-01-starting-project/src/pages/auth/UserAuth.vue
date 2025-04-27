@@ -68,6 +68,10 @@ export default {
         } else {
           await this.$store.dispatch('signup', actionPayload);
         }
+
+        const redirectUrl = '/' + (this.$route.query.redirect || 'coaches');
+        // REMARK: replace() cannot go back to previous page.
+        this.$router.replace(redirectUrl);
       } catch (error) {
         this.error = error.message || 'Failed to authenticate, try later.';
       }
