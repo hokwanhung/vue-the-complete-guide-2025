@@ -5,7 +5,7 @@
     <h2>{{ user.age }}</h2>
     <button @click="setAge">Change age</button>
     <div>
-      <input type="text" placeholder="First Name" @input="setFirstName" />
+      <input type="text" placeholder="First Name" v-model="firstName" />
       <input type="text" placeholder="Last Name" @input="setLastName" />
     </div>
   </section>
@@ -15,16 +15,22 @@
 <script>
 // REMARK: reactive is explicitly made for objects.
 // eslint-disable-next-line no-unused-vars
-import { ref, reactive, isReactive, isRef, toRefs, computed } from 'vue';
+import { ref, reactive, isReactive, isRef, toRefs, computed, watch } from 'vue';
 
 export default {
   setup() {
     const firstName = ref('');
     const lastName = ref('');
+    const uAge = ref(31);
 
     const uName = computed(() => {
       return firstName.value + ' ' + lastName.value;
     }) // REMARK: Computed refs are read-only.
+
+    // REMARK: Watch can pass in single or multiple refs, and then watch them like usual.
+    watch([uAge, uName], (newValues, oldValues) => {
+      console.log(newValues[0], oldValues[0]);
+    });
 
     // REMARK: ref() create a reference to values,
     // the below creates a reactive string.
@@ -67,6 +73,7 @@ export default {
       // userName: user.value.name, age: user.value.age, 
       userName: uName,
       user: user, setAge: setNewAge,
+      firstName, lastName,
       setFirstName, setLastName,
     };
   },
@@ -78,6 +85,11 @@ export default {
   // methods: {
   //   setNewAge() {
   //     this.age = 32;
+  //   }
+  // },
+  // watch: {
+  //   age(value) {
+  //     console.log(value);
   //   }
   // }
 };
