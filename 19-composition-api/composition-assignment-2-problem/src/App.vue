@@ -3,8 +3,8 @@
     <h1>Expense Tracker</h1>
   </header>
   <section>
-    <div>Available Funds: {{ availableFunds }}</div>
-    <div>Total Expenses: {{ currentExpenses }}</div>
+    <div>Available Funds: {{ data.availableFunds }}</div>
+    <div>Total Expenses: {{ data.currentExpenses }}</div>
     <hr />
     <div>Funds left: {{ remainingFunds }}</div>
   </section>
@@ -20,31 +20,60 @@
 </template>
 
 <script>
+import { reactive, ref, computed, watch } from 'vue';
+
 export default {
-  data() {
-    return {
+  setup() {
+    const storedData = reactive({
       availableFunds: 100,
       currentExpenses: 0,
-      enteredExpense: 0,
+    });
+
+    const enteredExpense = ref(0);
+
+    const remainingFunds = computed(() => {
+      return storedData.availableFunds - storedData.currentExpenses;
+    });
+
+    const addExpense = () => {
+      storedData.currentExpenses += enteredExpense.value;
+    }
+
+    watch(remainingFunds, (value) => {
+      value < 0 && alert('You are broke!');
+    });
+
+    return {
+      data: storedData,
+      enteredExpense,
+      remainingFunds,
+      addExpense,
     };
   },
-  computed: {
-    remainingFunds() {
-      return this.availableFunds - this.currentExpenses;
-    },
-  },
-  methods: {
-    addExpense() {
-      this.currentExpenses += this.enteredExpense;
-    },
-  },
-  watch: {
-    remainingFunds(val) {
-      if (val < 0) {
-        alert('You are broke!');
-      }
-    },
-  },
+  // data() {
+  //   return {
+  //     availableFunds: 100,
+  //     currentExpenses: 0,
+  //     enteredExpense: 0,
+  //   };
+  // },
+  // computed: {
+  //   remainingFunds() {
+  //     return this.availableFunds - this.currentExpenses;
+  //   },
+  // },
+  // methods: {
+  //   addExpense() {
+  //     this.currentExpenses += this.enteredExpense;
+  //   },
+  // },
+  // watch: {
+  //   remainingFunds(val) {
+  //     if (val < 0) {
+  //       alert('You are broke!');
+  //     }
+  //   },
+  // },
 };
 </script>
 
