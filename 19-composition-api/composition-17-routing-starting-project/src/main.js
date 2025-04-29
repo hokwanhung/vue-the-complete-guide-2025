@@ -11,7 +11,8 @@ const router = createRouter({
   routes: [
     { path: '/', redirect: '/products' },
     { path: '/products', component: AllProducts },
-    { path: '/products/:pid', component: ProductDetails },
+    // REMARK: So that we can bypass this.$route, but get the pid as props.
+    { path: '/products/:pid', component: ProductDetails, props: true },
     { path: '/products/add', component: AddProduct }
   ]
 });
