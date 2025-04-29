@@ -1,5 +1,6 @@
 <template>
   <section class="container">
+    <user-data :first-name="firstName" :last-name="lastName" :age="age"></user-data>
     <!-- <h2>{{ user.name }}</h2> -->
     <h2>{{ userName }}</h2>
     <h2>{{ user.age }}</h2>
@@ -7,6 +8,9 @@
     <div>
       <input type="text" placeholder="First Name" v-model="firstName" />
       <input type="text" placeholder="Last Name" @input="setLastName" />
+      <!-- REMARK: Same way of align-->
+      <input type="text" placeholder="Middle Name" ref="lastNameInput" />
+      <button @click="setName">Set Middle Name</button>
     </div>
   </section>
 </template>
@@ -16,11 +20,17 @@
 // REMARK: reactive is explicitly made for objects.
 // eslint-disable-next-line no-unused-vars
 import { ref, reactive, isReactive, isRef, toRefs, computed, watch } from 'vue';
+import UserData from './components/UserData.vue';
 
 export default {
+  components: {
+    UserData,
+  },
   setup() {
     const firstName = ref('');
     const lastName = ref('');
+    const middleName = ref('');
+    const middleNameInput = ref(null);
     const uAge = ref(31);
 
     const uName = computed(() => {
@@ -65,6 +75,13 @@ export default {
       user.value.age = 32;
     }
 
+    function setMiddleName() {
+      // REMARK: Cannot use refs because Vue cannot differtiate from ref.
+      // middleName.value = this.$refs.lastNameInput.value;
+      // REMARK: lastNameInput.value would be the ref, and then the ref also has its value.
+      middleName.value = lastNameInput.value.value;
+    }
+
     // REMARK: Put all things to expose to the template.
     // REMARK: This is drilled into as value is a Proxy,
     // thus the values cannot be updated when using user.value.xxx,
@@ -75,6 +92,8 @@ export default {
       user: user, setAge: setNewAge,
       firstName, lastName,
       setFirstName, setLastName,
+      lastNameInput,
+      setMiddleName,
     };
   },
   // data() {
