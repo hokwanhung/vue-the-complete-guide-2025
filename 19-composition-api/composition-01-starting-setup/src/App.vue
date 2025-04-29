@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <user-data :first-name="firstName" :last-name="lastName" :age="age"></user-data>
+    <user-data :first-name="firstName" :last-name="lastName"></user-data>
     <!-- <h2>{{ user.name }}</h2> -->
     <h2>{{ userName }}</h2>
     <h2>{{ user.age }}</h2>
@@ -19,7 +19,7 @@
 <script>
 // REMARK: reactive is explicitly made for objects.
 // eslint-disable-next-line no-unused-vars
-import { ref, reactive, isReactive, isRef, toRefs, computed, watch } from 'vue';
+import { ref, reactive, isReactive, isRef, toRefs, computed, watch, provide } from 'vue';
 import UserData from './components/UserData.vue';
 
 export default {
@@ -32,6 +32,9 @@ export default {
     const middleName = ref('');
     const middleNameInput = ref(null);
     const uAge = ref(31);
+
+    // REMARK: Accept a key and an actual value (ref).
+    provide('userAge', uAge);
 
     const uName = computed(() => {
       return firstName.value + ' ' + lastName.value;
@@ -109,6 +112,11 @@ export default {
   // watch: {
   //   age(value) {
   //     console.log(value);
+  //   }
+  // },
+  // provide() {
+  //   return {
+  //     age: this.age
   //   }
   // }
 };
