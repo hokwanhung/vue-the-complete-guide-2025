@@ -1,0 +1,1 @@
+// REMARK: Can be used in not so complicated cases (replaced by store folder).

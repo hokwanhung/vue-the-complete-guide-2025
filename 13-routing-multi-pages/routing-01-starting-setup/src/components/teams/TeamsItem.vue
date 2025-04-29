@@ -14,13 +14,16 @@ export default {
   name: 'teams-item',
   computed: {
     teamMembersLink() {
-      // return '/teams/' + this.id;
+      // return '/teams/' + this.id + '?sort=asc';
       return {
         // path: '/teams/' + this.id,
         name: 'team-members',
         params: {
           teamId: this.id,
         },
+        query: {
+          sort: 'asc',
+        }
       };
     }
   }
